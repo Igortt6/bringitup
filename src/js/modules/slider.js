@@ -4,31 +4,64 @@ export default class Slider {
         this.slides = this.page.children;
         this.btns = document.querySelectorAll(btns);
         this.slidesIndex = 1;
-        this.duration = 1000,
-            this.start = 0;
+        this.duration = 200;
+        this.start = 0;
     }
 
     showSlides(n) {
         if (n > this.slides.length) {
             this.slidesIndex = 1;
         }
+
         if (n < 1) {
             this.slidesIndex = this.slides.length;
         }
 
-        this.slides.forEach(slide => {                                      // ховаємо всі слайди
-            slide.style.display = 'none'
+        try {
+            this.hanson.style.opacity = '0'
+            if (n === 3) {
+                this.hanson.classList.add('animated');
+                setTimeout(() => {
+                    this.hanson.style.opacity = '1';
+                    this.hanson.classList.add('slideInUp')
+                }, 3000)
+            }
+        } catch (error) {
+            this.hanson.classList.remove('slideInUp')
+        }
+
+        this.slides.forEach(slide => {
+            slide.style.display = 'none';
         });
 
-        this.slides[this.slidesIndex - 1].style.display = 'block'           // показуємо 0вий слайн
+        this.slides[this.slidesIndex - 1].style.display = 'block';
+        this.start = Date.now();
+        this.animateSlide(this.slides[this.slidesIndex - 1], this.start);
     }
 
     plusSlides(n) {
         this.showSlides(this.slidesIndex += n);
     }
 
+    animateSlide(slide, start) {
+        let progress,
+            stamp = Date.now();
+
+        progress = ((stamp - this.start) / this.duration).toFixed(1);
+
+        slide.style.opacity = String(progress);
+
+        if (slide.style.opacity >= 1) {
+        } else {
+            requestAnimationFrame(() => this.animateSlide(slide, start));
+        }
+    }
 
     render() {
+        try {
+            this.hanson = document.querySelector('.hanson')
+        } catch (error) { }
+
         this.btns.forEach(item => {
             item.addEventListener('click', () => {
                 this.plusSlides(1);
@@ -37,11 +70,12 @@ export default class Slider {
             item.parentNode.previousElementSibling.addEventListener('click', (e) => {
                 e.preventDefault();
                 this.slidesIndex = 1;
-                this.showSlides(this.slidesIndex)
-            })
+                this.showSlides(this.slidesIndex);
+            });
         });
 
-        this.showSlides(this.slidesIndex);                                  // визиваємо для первинної ініціалізації 
-
+        this.showSlides(this.slidesIndex);
     }
+
+
 }
