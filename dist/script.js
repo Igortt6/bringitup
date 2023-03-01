@@ -3316,24 +3316,22 @@ function (_Slider) {
   }
 
   _createClass(MiniSlider, [{
-    key: "decoriseSlides",
-    value: function decoriseSlides() {
+    key: "decorizeSlides",
+    value: function decorizeSlides() {
       var _this = this;
 
       this.slides.forEach(function (slide) {
-        // видаляємо у всіх активний клас
         slide.classList.remove(_this.activeClass);
 
         if (_this.animate) {
-          slide.querySelector('.card__title').style.opacity = '0,4';
-          slide.querySelector('.card__contorls-arrow').style.opacity = '0';
+          slide.querySelector('.card__title').style.opacity = '0.4';
+          slide.querySelector('.card__controls-arrow').style.opacity = '0';
         }
       });
-      this.slides[0].classList.add(this.activeClass); // ставимо активний класс до 1 слайду
 
       if (this.animate) {
         this.slides[0].querySelector('.card__title').style.opacity = '1';
-        this.slides[0].querySelector('.card__contorls-arrow').style.opacity = '1';
+        this.slides[0].querySelector('.card__controls-arrow').style.opacity = '1';
       }
     }
   }, {
@@ -3345,7 +3343,7 @@ function (_Slider) {
         _this2.container.appendChild(_this2.slides[0]); //Переміщяємо перший слайд, в кінець слайдів
 
 
-        _this2.decoriseSlides();
+        _this2.decorizeSlides();
       });
       this.prev.addEventListener('click', function () {
         var active = _this2.slides[_this2.slides.length - 1]; // Виділяємо останній слайд
@@ -3353,7 +3351,7 @@ function (_Slider) {
         _this2.container.insertBefore(active, _this2.slides[0]); // Переміщюємо на перше місце
 
 
-        _this2.decoriseSlides();
+        _this2.decorizeSlides();
       });
     }
   }, {
@@ -3361,7 +3359,7 @@ function (_Slider) {
     value: function init() {
       this.container.style.cssText = "\n        display: flex;\n        flex-wrap: wrap;\n        overflow: hidden;\n        aling-items: flex-start;\n        ";
       this.bindTriggers();
-      this.decoriseSlides();
+      this.decorizeSlides();
     }
   }]);
 
