@@ -2947,15 +2947,41 @@ module.exports = g;
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_sliders_slider_main__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/sliders/slider-main */ "./src/js/modules/sliders/slider-main.js");
 /* harmony import */ var _modules_playVideo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/playVideo */ "./src/js/modules/playVideo.js");
+/* harmony import */ var _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/sliders/slider-mini */ "./src/js/modules/sliders/slider-mini.js");
+
 
 
 window.addEventListener('DOMContentLoaded', function () {
   var slider = new _modules_sliders_slider_main__WEBPACK_IMPORTED_MODULE_0__["default"]({
     btns: '.next',
-    page: '.page',
+    container: '.page',
     animationDuration: '200'
   });
   slider.render();
+  var showUpSlider = new _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_2__["default"]({
+    container: '.showup__content-slider',
+    prev: '.showup__prev',
+    next: '.showup__next',
+    activeClass: 'card-active',
+    animate: true
+  });
+  showUpSlider.init();
+  var modulesSlider = new _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_2__["default"]({
+    container: '.modules__content-slider',
+    prev: '.modules__info-btns .slick-prev',
+    next: '.modules__info-btns .slick-next',
+    activeClass: null,
+    animate: false
+  });
+  modulesSlider.init();
+  var feedSlider = new _modules_sliders_slider_mini__WEBPACK_IMPORTED_MODULE_2__["default"]({
+    container: '.feed__slider',
+    prev: '.feed__slider .slick-prev',
+    next: '.feed__slider .slick-next',
+    activeClass: null,
+    animate: false
+  });
+  feedSlider.init();
   var player = new _modules_playVideo__WEBPACK_IMPORTED_MODULE_1__["default"]('.showup .play', '.overlay');
   player.init();
 });
@@ -3119,16 +3145,23 @@ var MainSlider =
 function (_Slider) {
   _inherits(MainSlider, _Slider);
 
-  function MainSlider(page, btns) {
+  function MainSlider(btns) {
+    var _this;
+
+    var animationDuration = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '200';
+
     _classCallCheck(this, MainSlider);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(MainSlider).call(this, page, btns));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(MainSlider).call(this, btns));
+    _this.duration = animationDuration;
+    _this.start = 0;
+    return _this;
   }
 
   _createClass(MainSlider, [{
     key: "showSlides",
     value: function showSlides(n) {
-      var _this = this;
+      var _this2 = this;
 
       if (n > this.slides.length) {
         this.slidesIndex = 1;
@@ -3144,9 +3177,9 @@ function (_Slider) {
         if (n === 3) {
           this.hanson.classList.add('animated');
           setTimeout(function () {
-            _this.hanson.style.opacity = '1';
+            _this2.hanson.style.opacity = '1';
 
-            _this.hanson.classList.add('slideInUp');
+            _this2.hanson.classList.add('slideInUp');
           }, 3000);
         }
       } catch (error) {
@@ -3168,7 +3201,7 @@ function (_Slider) {
   }, {
     key: "animateSlide",
     value: function animateSlide(slide, start) {
-      var _this2 = this;
+      var _this3 = this;
 
       var progress,
           stamp = Date.now();
@@ -3177,14 +3210,14 @@ function (_Slider) {
 
       if (slide.style.opacity >= 1) {} else {
         requestAnimationFrame(function () {
-          return _this2.animateSlide(slide, start);
+          return _this3.animateSlide(slide, start);
         });
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       try {
         this.hanson = document.querySelector('.hanson');
@@ -3192,13 +3225,13 @@ function (_Slider) {
 
       this.btns.forEach(function (item) {
         item.addEventListener('click', function () {
-          _this3.plusSlides(1);
+          _this4.plusSlides(1);
         });
         item.parentNode.previousElementSibling.addEventListener('click', function (e) {
           e.preventDefault();
-          _this3.slidesIndex = 1;
+          _this4.slidesIndex = 1;
 
-          _this3.showSlides(_this3.slidesIndex);
+          _this4.showSlides(_this4.slidesIndex);
         });
       });
       this.showSlides(this.slidesIndex);
@@ -3207,6 +3240,133 @@ function (_Slider) {
 
   return MainSlider;
 }(_slider__WEBPACK_IMPORTED_MODULE_10__["default"]);
+
+
+
+/***/ }),
+
+/***/ "./src/js/modules/sliders/slider-mini.js":
+/*!***********************************************!*\
+  !*** ./src/js/modules/sliders/slider-mini.js ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return MiniSlider; });
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.symbol */ "./node_modules/core-js/modules/es.symbol.js");
+/* harmony import */ var core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.symbol.description */ "./node_modules/core-js/modules/es.symbol.description.js");
+/* harmony import */ var core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_description__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! core-js/modules/es.symbol.iterator */ "./node_modules/core-js/modules/es.symbol.iterator.js");
+/* harmony import */ var core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_symbol_iterator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! core-js/modules/es.array.iterator */ "./node_modules/core-js/modules/es.array.iterator.js");
+/* harmony import */ var core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_iterator__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var core_js_modules_es_object_get_prototype_of__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! core-js/modules/es.object.get-prototype-of */ "./node_modules/core-js/modules/es.object.get-prototype-of.js");
+/* harmony import */ var core_js_modules_es_object_get_prototype_of__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_get_prototype_of__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! core-js/modules/es.object.to-string */ "./node_modules/core-js/modules/es.object.to-string.js");
+/* harmony import */ var core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_object_to_string__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! core-js/modules/es.string.iterator */ "./node_modules/core-js/modules/es.string.iterator.js");
+/* harmony import */ var core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_string_iterator__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! core-js/modules/web.dom-collections.for-each */ "./node_modules/core-js/modules/web.dom-collections.for-each.js");
+/* harmony import */ var core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_for_each__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! core-js/modules/web.dom-collections.iterator */ "./node_modules/core-js/modules/web.dom-collections.iterator.js");
+/* harmony import */ var core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_web_dom_collections_iterator__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _slider__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./slider */ "./src/js/modules/sliders/slider.js");
+
+
+
+
+
+
+
+
+
+
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var MiniSlider =
+/*#__PURE__*/
+function (_Slider) {
+  _inherits(MiniSlider, _Slider);
+
+  function MiniSlider(container, next, prev, activeClass, animate, autoplay) {
+    _classCallCheck(this, MiniSlider);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(MiniSlider).call(this, container, next, prev, activeClass, animate, autoplay));
+  }
+
+  _createClass(MiniSlider, [{
+    key: "decoriseSlides",
+    value: function decoriseSlides() {
+      var _this = this;
+
+      this.slides.forEach(function (slide) {
+        // видаляємо у всіх активний клас
+        slide.classList.remove(_this.activeClass);
+
+        if (_this.animate) {
+          slide.querySelector('.card__title').style.opacity = '0,4';
+          slide.querySelector('.card__contorls-arrow').style.opacity = '0';
+        }
+      });
+      this.slides[0].classList.add(this.activeClass); // ставимо активний класс до 1 слайду
+
+      if (this.animate) {
+        this.slides[0].querySelector('.card__title').style.opacity = '1';
+        this.slides[0].querySelector('.card__contorls-arrow').style.opacity = '1';
+      }
+    }
+  }, {
+    key: "bindTriggers",
+    value: function bindTriggers() {
+      var _this2 = this;
+
+      this.next.addEventListener('click', function () {
+        _this2.container.appendChild(_this2.slides[0]); //Переміщяємо перший слайд, в кінець слайдів
+
+
+        _this2.decoriseSlides();
+      });
+      this.prev.addEventListener('click', function () {
+        var active = _this2.slides[_this2.slides.length - 1]; // Виділяємо останній слайд
+
+        _this2.container.insertBefore(active, _this2.slides[0]); // Переміщюємо на перше місце
+
+
+        _this2.decoriseSlides();
+      });
+    }
+  }, {
+    key: "init",
+    value: function init() {
+      this.container.style.cssText = "\n        display: flex;\n        flex-wrap: wrap;\n        overflow: hidden;\n        aling-items: flex-start;\n        ";
+      this.bindTriggers();
+      this.decoriseSlides();
+    }
+  }]);
+
+  return MiniSlider;
+}(_slider__WEBPACK_IMPORTED_MODULE_9__["default"]);
 
 
 
@@ -3226,25 +3386,31 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 var Slider = function Slider() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$page = _ref.page,
-      page = _ref$page === void 0 ? '' : _ref$page,
+      _ref$container = _ref.container,
+      container = _ref$container === void 0 ? null : _ref$container,
       _ref$btns = _ref.btns,
-      btns = _ref$btns === void 0 ? '' : _ref$btns,
+      btns = _ref$btns === void 0 ? null : _ref$btns,
       _ref$next = _ref.next,
-      next = _ref$next === void 0 ? '' : _ref$next,
+      next = _ref$next === void 0 ? null : _ref$next,
       _ref$prev = _ref.prev,
-      prev = _ref$prev === void 0 ? '' : _ref$prev,
-      _ref$animationDuratio = _ref.animationDuration,
-      animationDuration = _ref$animationDuratio === void 0 ? '' : _ref$animationDuratio;
+      prev = _ref$prev === void 0 ? null : _ref$prev,
+      _ref$activeClass = _ref.activeClass,
+      activeClass = _ref$activeClass === void 0 ? null : _ref$activeClass,
+      _ref$animate = _ref.animate,
+      animate = _ref$animate === void 0 ? false : _ref$animate,
+      autoplay = _ref.autoplay;
 
   _classCallCheck(this, Slider);
 
-  this.page = document.querySelector(page);
-  this.slides = this.page.children;
+  this.container = document.querySelector(container);
+  this.slides = this.container.children;
   this.btns = document.querySelectorAll(btns);
   this.slidesIndex = 1;
-  this.duration = animationDuration;
-  this.start = 0;
+  this.prev = document.querySelector(prev);
+  this.next = document.querySelector(next);
+  this.activeClass = activeClass;
+  this.animate = animate;
+  this.autoplay = autoplay;
 };
 
 
