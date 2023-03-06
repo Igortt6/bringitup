@@ -12,6 +12,8 @@ export default class MiniSlider extends Slider {
                 slide.querySelector('.card__controls-arrow').style.opacity = '0';
             }
         });
+        this.slides[0].classList.add(this.activeClass);
+
 
         if (this.animate) {
             this.slides[0].querySelector('.card__title').style.opacity = '1';
@@ -21,14 +23,20 @@ export default class MiniSlider extends Slider {
 
     bindTriggers() {
         this.next.addEventListener('click', () => {
-            this.container.appendChild(this.slides[0])              //Переміщяємо перший слайд, в кінець слайдів
-            this.decorizeSlides();
+            do {
+                this.container.appendChild(this.slides[0])              //Переміщяємо перший слайд, в кінець слайдів
+            } while (this.slides[0].tagName === 'BUTTON') {
+                this.decorizeSlides();
+            }
         });
 
         this.prev.addEventListener('click', () => {
-            let active = this.slides[this.slides.length - 1];       // Виділяємо останній слайд
-            this.container.insertBefore(active, this.slides[0])     // Переміщюємо на перше місце
-            this.decorizeSlides();
+            do {
+                this.container.prepend(this.slides[this.slides.length - 1])
+            } while (this.slides[0].tagName === 'BUTTON') {
+                this.decorizeSlides();
+
+            }
         })
     }
 
