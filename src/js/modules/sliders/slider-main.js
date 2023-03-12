@@ -1,8 +1,8 @@
 import Slider from "./slider";
 
 export default class MainSlider extends Slider {
-    constructor(btns, animationDuration = '200') {
-        super(btns);
+    constructor(btns, animationDuration = '200', btnNextSmall, btnPrevSmall) {
+        super(btns, btnNextSmall, btnPrevSmall);
         this.duration = animationDuration;
         this.start = 0;
     }
@@ -55,26 +55,46 @@ export default class MainSlider extends Slider {
             requestAnimationFrame(() => this.animateSlide(slide, start));
         }
     }
+    bindTriggers() {
+        this.btns.forEach(item => {
+            item.addEventListener('click', () => {
+                this.plusSlides(1);
+            });
+
+            item.parentNode.previousElementSibling.addEventListener('click', (e) => {
+                e.preventDefault();
+                this.slidesIndex = 1;
+                this.showSlides(this.slidesIndex);
+            });
+        });
+
+
+        this.btnPrevSmall.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                this.plusSlides(-1)
+            })
+        });
+
+        this.btnNextSmall.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                this.plusSlides(1);
+            })
+        });
+    }
 
     render() {
         if (this.container) {
             try {
                 this.hanson = document.querySelector('.hanson')
             } catch (error) { }
-
-            this.btns.forEach(item => {
-                item.addEventListener('click', () => {
-                    this.plusSlides(1);
-                });
-
-                item.parentNode.previousElementSibling.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    this.slidesIndex = 1;
-                    this.showSlides(this.slidesIndex);
-                });
-            });
-
             this.showSlides(this.slidesIndex);
+            this.bindTriggers();
+
+
         };
     };
 }
