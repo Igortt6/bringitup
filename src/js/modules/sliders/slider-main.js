@@ -24,10 +24,10 @@ export default class MainSlider extends Slider {
                     this.hanson.style.opacity = '1';
                     this.hanson.classList.add('slideInUp')
                 }, 3000)
+            } else {
+                this.hanson.classList.remove('slideInUp')
             }
-        } catch (error) {
-            this.hanson.classList.remove('slideInUp')
-        }
+        } catch (error) { }
 
         this.slides.forEach(slide => {
             slide.style.display = 'none';
@@ -57,7 +57,7 @@ export default class MainSlider extends Slider {
     }
 
     render() {
-        try {
+        if (this.container) {
             try {
                 this.hanson = document.querySelector('.hanson')
             } catch (error) { }
@@ -75,8 +75,6 @@ export default class MainSlider extends Slider {
             });
 
             this.showSlides(this.slidesIndex);
-        } catch (error) {
-
-        }
-    }
+        };
+    };
 }
